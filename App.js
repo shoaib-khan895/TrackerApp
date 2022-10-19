@@ -9,6 +9,7 @@ import RecentExpenses from './screen/RecentExpenses';
 import {GlobalStyles} from './constans/styles';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Icon} from '@rneui/themed';
+import IconButton from './components/UI/IconButton';
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
@@ -16,12 +17,19 @@ const BottomTabs = createBottomTabNavigator();
 function ExpensesOverview() {
   return (
     <BottomTabs.Navigator
-      screenOptions={{
+      screenOptions={({navigation}) => ({
         headerStyle: {backgroundColor: GlobalStyles.colors.primary500},
         headerTintColor: 'white',
         tabBarStyle: {backgroundColor: GlobalStyles.colors.primary500},
         tabBarActiveTintColor: GlobalStyles.colors.accent500,
-      }}>
+        headerRight: () => (
+          <IconButton
+          sign='+'
+            onPress={() => {
+              navigation.navigate('ManageExpenses');
+            }}></IconButton>
+        ),
+      })}>
       <BottomTabs.Screen
         name="RecentExpenses"
         component={RecentExpenses}
@@ -51,14 +59,21 @@ const App = () => {
       <>
         <StatusBar barStyle="light-content"></StatusBar>
         <NavigationContainer>
-          <Stack.Navigator>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: {backgroundColor: GlobalStyles.colors.primary500},
+              headerTintColor: 'white',
+            }}>
             <Stack.Screen
               options={{headerShown: false}}
               name="ExpensesOverview"
               component={ExpensesOverview}></Stack.Screen>
             <Stack.Screen
               name="ManageExpenses"
-              component={ManageExpenses}></Stack.Screen>
+              component={ManageExpenses}
+              options={{
+                presentation: 'modal',
+              }}></Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>
       </>
