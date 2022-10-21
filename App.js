@@ -38,7 +38,7 @@ function ExpensesOverview() {
           title: 'Recent Expenses',
           tabBarLabel: 'Recent',
           tabBarIcon: ({color, size}) => {
-            <Icon name="staro" size={size} color={color}></Icon>;
+            <Icon name="" size={size} color={color}></Icon>;
           },
         }}></BottomTabs.Screen>
       <BottomTabs.Screen
@@ -56,7 +56,6 @@ function ExpensesOverview() {
 }
 const App = () => {
   return (
-    <SafeAreaProvider>
       <>
         <StatusBar barStyle="light-content"></StatusBar>
         <ExpensesContextProvider>
@@ -80,7 +79,6 @@ const App = () => {
           </NavigationContainer>
         </ExpensesContextProvider>
       </>
-    </SafeAreaProvider>
   );
 };
 

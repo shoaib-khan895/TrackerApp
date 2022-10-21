@@ -5,17 +5,18 @@ import IconButton from '../components/UI/IconButton';
 import {GlobalStyles} from '../constans/styles';
 import {ExpensesContext} from '../store/expenses-context';
 
-function ManageExpenses({route, navigation}) {
+function ManageExpense({route, navigation}) {
+  const expensesCtx = useContext(ExpensesContext);
+
   const editedExpenseId = route.params?.expenseId;
   const isEditing = !!editedExpenseId;
-  const expensesCtx = useContext(ExpensesContext);
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: isEditing ? 'edit' : 'Add',
+      title: isEditing ? 'Edit Expense' : 'Add Expense',
     });
-    
   }, [navigation, isEditing]);
+
   function deleteExpenseHandler() {
     expensesCtx.deleteExpense(editedExpenseId);
     navigation.goBack();
@@ -41,8 +42,9 @@ function ManageExpenses({route, navigation}) {
     }
     navigation.goBack();
   }
+
   return (
-    <View style={styles.overAllContainer}>
+    <View style={styles.container}>
       <View style={styles.buttons}>
         <Button style={styles.button} mode="flat" onPress={cancelHandler}>
           Cancel
@@ -53,34 +55,35 @@ function ManageExpenses({route, navigation}) {
       </View>
       {isEditing && (
         <View style={styles.deleteContainer}>
-          <IconButton sign="-" onPress={deleteExpenseHandler} />
+          <IconButton onPress={deleteExpenseHandler}>-</IconButton>
         </View>
       )}
     </View>
   );
 }
-export default ManageExpenses;
+
+export default ManageExpense;
 
 const styles = StyleSheet.create({
-  overAllContainer: {
+  container: {
     flex: 1,
     padding: 24,
     backgroundColor: GlobalStyles.colors.primary800,
   },
-  deleteContainer: {
-    marginTop: 16,
-    paddingTop: 8,
-    borderTopWidth: 2,
-    borderTopColor: GlobalStyles.colors.primary200,
+  buttons: {
+    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   button: {
     minWidth: 120,
     marginHorizontal: 8,
   },
-  buttons: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+  deleteContainer: {
+    marginTop: 16,
+    paddingTop: 8,
+    borderTopWidth: 2,
+    borderTopColor: GlobalStyles.colors.primary200,
     alignItems: 'center',
   },
 });
