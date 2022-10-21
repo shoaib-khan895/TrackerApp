@@ -10,6 +10,7 @@ import {GlobalStyles} from './constans/styles';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Icon} from '@rneui/themed';
 import IconButton from './components/UI/IconButton';
+import ExpensesContextProvider from './store/expenses-context';
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
@@ -58,24 +59,26 @@ const App = () => {
     <SafeAreaProvider>
       <>
         <StatusBar barStyle="light-content"></StatusBar>
-        <NavigationContainer>
-          <Stack.Navigator
-            screenOptions={{
-              headerStyle: {backgroundColor: GlobalStyles.colors.primary500},
-              headerTintColor: 'white',
-            }}>
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="ExpensesOverview"
-              component={ExpensesOverview}></Stack.Screen>
-            <Stack.Screen
-              name="ManageExpenses"
-              component={ManageExpenses}
-              options={{
-                presentation: 'modal',
-              }}></Stack.Screen>
-          </Stack.Navigator>
-        </NavigationContainer>
+        <ExpensesContextProvider>
+          <NavigationContainer>
+            <Stack.Navigator
+              screenOptions={{
+                headerStyle: {backgroundColor: GlobalStyles.colors.primary500},
+                headerTintColor: 'white',
+              }}>
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="ExpensesOverview"
+                component={ExpensesOverview}></Stack.Screen>
+              <Stack.Screen
+                name="ManageExpenses"
+                component={ManageExpenses}
+                options={{
+                  presentation: 'modal',
+                }}></Stack.Screen>
+            </Stack.Navigator>
+          </NavigationContainer>
+        </ExpensesContextProvider>
       </>
     </SafeAreaProvider>
   );

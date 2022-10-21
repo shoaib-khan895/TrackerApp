@@ -1,23 +1,59 @@
-import {useLayoutEffect} from 'react';
+import {useLayoutEffect, useContext} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import Button from '../components/UI/Button';
 import IconButton from '../components/UI/IconButton';
 import {GlobalStyles} from '../constans/styles';
+import {ExpensesContext} from '../store/expenses-context';
 
 function ManageExpenses({route, navigation}) {
   const editedExpenseId = route.params?.expenseId;
   const isEditing = !!editedExpenseId;
+  const expensesCtx = useContext(ExpensesContext);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       title: isEditing ? 'edit' : 'Add',
     });
+    
   }, [navigation, isEditing]);
-  function deleteExpenseHadler() {}
+  function deleteExpenseHandler() {
+    expensesCtx.deleteExpense(editedExpenseId);
+    navigation.goBack();
+  }
+
+  function cancelHandler() {
+    navigation.goBack();
+  }
+
+  function confirmHandler() {
+    if (isEditing) {
+      expensesCtx.updateExpense(editedExpenseId, {
+        description: 'Test!!!!',
+        amount: 29.99,
+        date: new Date('2022-05-20'),
+      });
+    } else {
+      expensesCtx.addExpense({
+        description: 'Test',
+        amount: 19.99,
+        date: new Date('2022-05-19'),
+      });
+    }
+    navigation.goBack();
+  }
   return (
     <View style={styles.overAllContainer}>
+      <View style={styles.buttons}>
+        <Button style={styles.button} mode="flat" onPress={cancelHandler}>
+          Cancel
+        </Button>
+        <Button style={styles.button} onPress={confirmHandler}>
+          {isEditing ? 'Update' : 'Add'}
+        </Button>
+      </View>
       {isEditing && (
         <View style={styles.deleteContainer}>
-          <IconButton sign="-" onPress={deleteExpenseHadler} />
+          <IconButton sign="-" onPress={deleteExpenseHandler} />
         </View>
       )}
     </View>
@@ -36,6 +72,15 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     borderTopWidth: 2,
     borderTopColor: GlobalStyles.colors.primary200,
+    alignItems: 'center',
+  },
+  button: {
+    minWidth: 120,
+    marginHorizontal: 8,
+  },
+  buttons: {
+    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
   },
 });
