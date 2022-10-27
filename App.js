@@ -11,6 +11,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Icon} from '@rneui/themed';
 import IconButton from './components/UI/IconButton';
 import ExpensesContextProvider from './store/expenses-context';
+import { storeExpense } from './util/http';
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
@@ -27,7 +28,8 @@ function ExpensesOverview() {
           <IconButton
           sign='+'
             onPress={() => {
-              navigation.navigate('ManageExpenses');
+              navigation.navigate('ManageExpense');
+
             }}></IconButton>
         ),
       })}>
@@ -38,7 +40,7 @@ function ExpensesOverview() {
           title: 'Recent Expenses',
           tabBarLabel: 'Recent',
           tabBarIcon: ({color, size}) => {
-            <Icon name="" size={size} color={color}></Icon>;
+            <Icon name="#" size={size} color={color}></Icon>;
           },
         }}></BottomTabs.Screen>
       <BottomTabs.Screen
@@ -48,7 +50,7 @@ function ExpensesOverview() {
           title: 'All Expenses',
           tabBarLabel: 'AllExpenses',
           tabBarIcon: ({color, size}) => {
-            <Icon name="staro" size={size} color={color}></Icon>;
+            <Icon name="@" size={size} color={color}></Icon>;
           },
         }}></BottomTabs.Screen>
     </BottomTabs.Navigator>
@@ -70,7 +72,7 @@ const App = () => {
                 name="ExpensesOverview"
                 component={ExpensesOverview}></Stack.Screen>
               <Stack.Screen
-                name="ManageExpenses"
+                name="ManageExpense"
                 component={ManageExpenses}
                 options={{
                   presentation: 'modal',

@@ -1,5 +1,4 @@
 import {ImagePickerIOS, Pressable, StyleSheet, View, Text} from 'react-native';
-import {Icon} from '@rneui/themed';
 
 function IconButton({sign,onPress}) {
   return (
